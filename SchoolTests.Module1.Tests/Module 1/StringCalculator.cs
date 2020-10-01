@@ -37,14 +37,26 @@ namespace SchoolTests.Tests.Module1
 
         [Test]
         [TestCase("1", 1)]
-        [TestCase("1,2", 3 )]
+        [TestCase("1,2", 3)]
         [TestCase("1,2,3", 6)]
         [TestCase("5,5,5", 15)]
-        public void ShouldReturnSumWhenGivenNumber(string input, int sum)
+        public void ShouldReturnSumWhenPositiveNumberGiven(string input, int sum)
         {
             var result = stringCalculator.Add(input);
             Assert.AreEqual(result, sum);
         }
+
+
+        [Test]
+        [TestCase("-2", -2)]
+        [TestCase("-1,-1", -2)]
+        [TestCase("-1,-2,-3", -6)]
+        public void ShouldReturnSumWhenNegativeNumberGiven(string input, int sum)
+        {
+            var result = stringCalculator.Add(input);
+            Assert.AreEqual(result, sum);
+        }
+
 
     }
 }
