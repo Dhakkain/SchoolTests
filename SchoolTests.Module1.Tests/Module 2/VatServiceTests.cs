@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using System.ComponentModel;
+using Moq;
 
 namespace SchoolTests.Module2.Tests
 {
@@ -13,10 +14,13 @@ namespace SchoolTests.Module2.Tests
     {
         private VatService vatService;
 
+        private Mock<IVatProvider> vatProvider;
+
         [SetUp]
         public void SetUp()
         {
-            vatService = new VatService();
+            vatProvider = new Mock<IVatProvider>();
+            vatService = new VatService(vatProvider.Object);
         }
 
 
@@ -28,7 +32,10 @@ namespace SchoolTests.Module2.Tests
         {
             //// Given
             Product product = new Product(Guid.NewGuid().ToString(), netPrice);
-           
+
+            var defaultVat = 0.23;
+            vatProvider.Setup(x => x.GetDefaultVat()).Returns(defaultVat);
+
             //// When
             var result = vatService.GetGrossPriceForDefaultVat(product);
 
@@ -42,10 +49,28 @@ namespace SchoolTests.Module2.Tests
         [TestCase(100.00, 0.99, 199)]
         public void ShouldReturnGrossPriceForVatGiven(double netPrice, double vatValue,  double outPrice)
         {
-            var result = vatService.GetGrossPrice(netPrice, vatValue);
+            vatProvider.Setup(x => x.GetDefaultVat()).Returns(vatValue);
+
+            var result = vatService.CalculatePrice(netPrice, vatValue);
 
             result.Should().Be(outPrice);
         }
+
+
+        [Test]
+        public void ShouldReturnPriceDependsOnProductTypeVat()
+        {
+            var vatTestType = 0.23;
+            var netPrice = 100;
+            var productType = "TestType";
+
+            vatProvider.Setup(x => x.GetVatForType(productType)).Returns(vatTestType);
+
+            var result = vatService.GetGrossPriceForProductType(netPrice, productType);
+
+            result.Should().Be(123);
+        }
+
 
         [Test]
         public void ShouldThrowExceptionWhenVatBiggerThenOneGiven()
@@ -53,7 +78,7 @@ namespace SchoolTests.Module2.Tests
             double vat = 25.33;
             double netPrice = 10.00;
 
-            Action action = () => vatService.GetGrossPrice(netPrice, vat);
+            Action action = () => vatService.CalculatePrice(netPrice, vat);
 
             action.Should().Throw<Exception>();
         }

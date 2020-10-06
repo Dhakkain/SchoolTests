@@ -6,19 +6,26 @@ namespace SchoolTests.Module2
 {
     public class VatService
     {
-        public double VatValue { get; set; }
+        private readonly IVatProvider vatProvider;
 
-        public VatService()
+        public VatService(IVatProvider vatProvider)
         {
-            this.VatValue = 0.23;
+            this.vatProvider = vatProvider;
         }
 
         public double GetGrossPriceForDefaultVat(Product product)
         {
-            return GetGrossPrice(product.NetPrice, VatValue);
+            return CalculatePrice(product.NetPrice, vatProvider.GetDefaultVat());
         }
 
-        public double GetGrossPrice(double netPrice, double vatValue)
+        public double GetGrossPriceForProductType(double netPrice, string productType)
+        {
+            var vatValue = this.vatProvider.GetVatForType(productType);
+            return CalculatePrice(netPrice, vatValue);
+        }
+
+
+        public double CalculatePrice(double netPrice, double vatValue)
         {
             if (vatValue > 1)
             {
