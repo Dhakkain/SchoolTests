@@ -29,13 +29,6 @@ namespace SchoolTests.Tests.Module1
         }
 
         [Test]
-        public void ShouldReturn()
-        {
-            var result = stringCalculator.Add("");
-            Assert.AreEqual(result, 0);
-        }
-
-        [Test]
         [TestCase("1", 1)]
         [TestCase("1,2", 3)]
         [TestCase("1,2,3", 6)]

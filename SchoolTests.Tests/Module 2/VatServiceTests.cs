@@ -7,7 +7,7 @@ using FluentAssertions;
 using System.ComponentModel;
 using Moq;
 
-namespace SchoolTests.Module2.Tests
+namespace SchoolTests.Tests.Module2
 {
     [TestFixture()]
     public class VatServiceTests
