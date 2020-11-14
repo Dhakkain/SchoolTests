@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SchoolTests.Module1\SchoolTests.Module1.csproj" />
     <ProjectReference Include="..\SchoolTests.Module2\SchoolTests.Module2.csproj" />
+    <ProjectReference Include="..\SchoolTests.Module3\SchoolTests.Module3.csproj" />
   </ItemGroup>
 
 </Project>
