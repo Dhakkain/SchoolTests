@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SchoolTests.Module3.Tests
+namespace SchoolTests.Tests.Module3
 {
     [TestFixture()]
     public class StringCalculatorTests

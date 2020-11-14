@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SchoolTests.Tests.Module_3
+namespace SchoolTests.Tests.Module3
 {
     [TestFixture]
     public class BowlingGameTests
